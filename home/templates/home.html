@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'home.css' %}">
+{% endblock styles %}
+
+
+{% block content %}
+    <div class="container text-center">
+        <img src="{% static 'me.jpg' %}" height=300>
+        <h1 class="mb-0"><b>Tom Whitehead</b></h1>
+        <p class="lead">This is where the tagline goes.</p>
+    </div>
+{% endblock content %}

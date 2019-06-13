@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'jobs.css' %}">
+{% endblock styles %}
+
+
+{% block content %}
+<section class="col-md-8 offset-md-2">
+    <div class="container">
+        <h1 class="jumbotron-heading">{{ job.title }}</h1>
+        <hr class="hr-title">
+        <img class="title-img" src="{{ job.image.url }}" height=300>
+
+        <p>{{ job.description | linebreaks }}</p>
+
+        <p>
+            <a href="{% url 'job_index' %}" class="btn btn-primary my-2">Back</a>
+        </p>
+    </div>
+</section>
+{% endblock content %}
+

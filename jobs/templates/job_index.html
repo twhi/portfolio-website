@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'jobs.css' %}">
+{% endblock styles %}
+
+
+
+{% block content %}
+<div class="col-md-8 offset-md-2">
+<h1>Project Index</h1>
+<hr class="hr-title">
+<p>This is a section that contains information about projects</p>
+    <div class="container">
+        <div class="row">
+            {% for job in jobs.all %}
+                <div class="col-md-4">
+                    <a href="{% url 'job_detail' job.pk %}">
+                    <div class="card mb-4 shadow-sm">
+                        <img class="card-img-top" src="{{ job.image.url }}">
+                        <div class="card-body">
+                            <p class="card-text">{{ job.title }}</p>
+                        </div>
+                    </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock content %}
