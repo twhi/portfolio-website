@@ -76,7 +76,7 @@ WSGI_APPLICATION = 'portfolio.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'portfoliodb',
+        'NAME': '***REMOVED***',
         'USER': '***REMOVED***',
         'PASSWORD': '***REMOVED***',
         'HOST': '***REMOVED***',
