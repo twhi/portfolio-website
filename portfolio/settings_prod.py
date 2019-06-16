@@ -138,7 +138,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'blog', 'static')
 ]
 
-MEDIA_URL = '/media/'
+MEDIA_URL = '/images/'
 MEDIA_ROOT = BASE_DIR
 
 # email server details
