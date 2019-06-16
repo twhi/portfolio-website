@@ -13,11 +13,14 @@ def contact(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
+            subject = '[WEBSITE] Message received from website contact form!'
             name = form.cleaned_data['name']
             email = form.cleaned_data['email']
-            message = 'Message from: ' + form.cleaned_data['email'] + '\nMessage text: ' + form.cleaned_data['message']
+            message = 'Sender name: ' + form.cleaned_data['name'] + \
+                      '\nMessage from: ' + form.cleaned_data['email'] + \
+                      '\nMessage text: ' + form.cleaned_data['message']
             try:
-                email = EmailMessage(name, message, email, ['***REMOVED***'], reply_to=[email])
+                email = EmailMessage(subject, message, email, ['***REMOVED***'], reply_to=[email])
                 email.send()
             except BadHeaderError:
                 return HttpResponse('Invalid header found.')
