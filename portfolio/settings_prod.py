@@ -25,7 +25,7 @@ SECRET_KEY = '***REMOVED***'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['safe-woodland-45163']
+ALLOWED_HOSTS = ['safe-woodland-45163.herokuapp.com']
 
 
 # Application definition
