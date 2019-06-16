@@ -10,11 +10,9 @@ if env == 'dev':
     except Exception as e:
         print(e)
     print('Using development environment settings.')
-elif env == 'prod':
+else:
     try:
         from .settings_prod import *
     except Exception as e:
         print(e)
     print('Using production environment settings.')
-else:
-    print('Incorrect environment specified in settings.py. Specified env = {}'.format(env))
