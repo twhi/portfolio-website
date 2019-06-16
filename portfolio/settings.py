@@ -2,7 +2,7 @@
 Separated the settings for production and development environments.
 '''
 
-env = 'dev'
+env = 'prod'
 
 if env == 'dev':
     try:
