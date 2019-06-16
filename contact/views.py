@@ -15,7 +15,7 @@ def contact(request):
         if form.is_valid():
             name = form.cleaned_data['name']
             email = form.cleaned_data['email']
-            message = form.cleaned_data['message']
+            message = 'Message from: ' + form.cleaned_data['email'] + '\nMessage text: ' + form.cleaned_data['message']
             try:
                 email = EmailMessage(name, message, email, ['***REMOVED***'], reply_to=[email])
                 email.send()
