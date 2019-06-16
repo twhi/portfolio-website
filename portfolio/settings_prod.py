@@ -128,9 +128,9 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR
 
 # email server details
-# EMAIL_USE_TLS = True
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_POST = 587
-# EMAIL_HOST_USER = '***REMOVED***'
-# EMAIL_HOST_PASSWORD = '***REMOVED***'
-# DEFAULT_FROM_EMAIL = 'webmaster@localhost'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_POST = 587
+EMAIL_HOST_USER = '***REMOVED***'
+EMAIL_HOST_PASSWORD = '***REMOVED***'
+DEFAULT_FROM_EMAIL = 'webmaster@localhost'
