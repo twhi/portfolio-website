@@ -11,4 +11,4 @@ class Job(models.Model):
     description = models.TextField(default='')
 
     def __str__(self):
-        return self.summary
+        return self.title
