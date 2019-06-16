@@ -29,6 +29,7 @@ def contact(request):
     }
     return render(request, 'contact.html', context)
 
+
 def thanks(request):
     context = {
         'contact_page': 'active'
