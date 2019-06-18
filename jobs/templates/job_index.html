@@ -2,30 +2,29 @@
 {% load static %}
 
 {% block styles %}
-    <link rel="stylesheet" href="{% static 'jobs.css' %}">
+<link rel="stylesheet" href="{% static 'jobs.css' %}">
 {% endblock styles %}
-
 
 
 {% block content %}
 <div class="col-md-8 offset-md-2">
-<h1>Project Index</h1>
-<hr class="hr-title">
-<p>This is a section that contains information about projects</p>
+    <h1>Project Index</h1>
+    <hr class="hr-title">
+    <p>This is a section that contains information about projects</p>
     <div class="container">
         <div class="row">
+
             {% for job in jobs.all %}
-                <div class="col-md-4">
-                    <a href="{% url 'job_detail' job.pk %}">
-                    <div class="card mb-4 shadow-sm">
-                        <img class="card-img-top" src="{{ job.image.url }}">
-                        <div class="card-body">
-                            <p class="card-text">{{ job.title }}</p>
-                        </div>
+            <div class="col-md-4 img-box">
+                <a href="{% url 'job_detail' job.pk %}">
+                    <img src="{{ job.image.url }}" class="object-fit-cover image">
+                    <div class="caption">
+                        <p class="caption-text">{{ job.title }}</p>
                     </div>
-                    </a>
-                </div>
+                </a>
+            </div>
             {% endfor %}
+
         </div>
     </div>
 </div>

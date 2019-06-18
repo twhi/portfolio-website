@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseRedirect
 from .models import Post, Comment
 from .forms import CommentForm
 
@@ -26,7 +27,6 @@ def blog_detail(request, blog_id):
     post = get_object_or_404(Post, pk=blog_id)
 
     # load comment form
-    form = CommentForm()
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
@@ -36,8 +36,11 @@ def blog_detail(request, blog_id):
                 post=post
             )
             comment.save()
+            return HttpResponseRedirect('')
+    else:
+        form = CommentForm()
 
-    comments = Comment.objects.filter(post=post)
+    comments = Comment.objects.filter(post=post).order_by('-created_on')
     context = {
         'post': post,
         'comments': comments,

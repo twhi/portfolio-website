@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block styles %}
-    <link rel="stylesheet" href="{% static 'blog.css' %}">
+<link rel="stylesheet" href="{% static 'blog.css' %}">
 {% endblock styles %}
 
 {% block content %}
@@ -11,34 +11,38 @@
     <hr class="hr-title">
     <p>Here is a section that contains all of the blog posts.</p>
 
-    {% for post in posts %}
+    <div class="row">
 
-        <div class="paragraphs">
-            <div class="row">
-                <div class="span12">
-                    {% if post.image %}
-                    <img class="menu-img" style="float:left; padding-right:20px;" src="{{ post.image.url }}" width="200" />
-                    {% else %}
-                    {% endif %}
-                    <h2><a href="{% url 'blog_detail' post.pk %}">{{ post.title }}</a></h2>
-                    <small>
-                    {{ post.created_on.date }} |&nbsp;
-                    Categories:&nbsp;
-                    {% for category in post.categories.all %}
-                        <a href="{% url 'blog_category' category.name %}">
-                            {{ category.name }}
-                        </a>&nbsp;
-                    {% endfor %}
-                    </small>
-                    <p>{{ post.body | slice:":100" }}...</p>
-                    <div style="clear:both"></div>
+        {% for post in posts %}
+
+        <div class="col-sm-10">
+            <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+
+                {# left hand side of card #}
+                <div class="col p-4 d-flex flex-column position-static">
+                    {# post title #}
+                    <a href="{% url 'blog_detail' post.pk %}" class=""><h3 class="mb-0">{{ post.title }}</h3></a>
+
+                    {# post created date #}
+                    <div class="mb-1 text-muted">{{ post.created_on.date }}</div>
+
+                    {# post preview #}
+                    <p class="card-text mb-auto">{{ post.body | slice:":100" }}...</p>
+
+                    {# link to rest of post#}
+                    <a href="{% url 'blog_detail' post.pk %}" class=""><p>Continue reading</p></a>
                 </div>
+
+                {# right hand side of card - image thumbnail #}
+                <div class="col-auto d-none d-lg-block">
+                    <img class="object-fit-cover" width="200" height="250" src="{{ post.image.url }}"/>
+                </div>
+
             </div>
         </div>
-
-
         <hr>
+        {% endfor %}
 
-    {% endfor %}
+    </div>
 </div>
 {% endblock content %}

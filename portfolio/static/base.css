@@ -12,7 +12,8 @@ h1 {
 }
 
 .lead {
-    color:white;
+    padding-top: 20px;
+    color:#566d75;
 }
 
 p, a {

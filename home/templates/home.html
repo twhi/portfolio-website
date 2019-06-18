@@ -2,14 +2,30 @@
 {% load static %}
 
 {% block styles %}
-    <link rel="stylesheet" href="{% static 'home.css' %}">
+<link rel="stylesheet" href="{% static 'home.css' %}">
 {% endblock styles %}
 
 
 {% block content %}
-    <div class="container text-center">
-        <img src="{% static 'me.jpg' %}" height=300>
-        <h1 class="mb-0"><b>Tom Whitehead</b></h1>
-        <p class="lead">This is where the tagline goes.</p>
+<div class="container text-center">
+
+    {# lead image start #}
+    <img class="img-fluid" src="{% static 'me.jpg' %}">
+    <h1 class="mb-0"><b>Tom Whitehead</b></h1>
+    <hr class="hr-title">
+    {# lead image start #}
+
+    {# tagline start #}
+    <div class="row">
+        <div class="col-lg-4 ml-auto">
+          <p class="tagline">Hey, my name is Tom - welcome to my website! Here you'll find a collection of some of the projects I've built. I mostly build stuff using Python, but I'm always looking to increase my skillset!</p>
+        </div>
+        <div class="col-lg-4 mr-auto">
+          <p class="tagline">If you have any feedback on some of the work I've done, or if you'd like to collaborate, then please get in touch with me on the Contact page.</p>
+        </div>
     </div>
+    {# tagline end #}
+
+
+</div>
 {% endblock content %}

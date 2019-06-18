@@ -21,7 +21,7 @@
 
     <br>
     {% if post.image %}
-    <img class="title-img" src="{{ post.image.url }}" height=300>
+    <img class="title-img img-fluid" src="{{ post.image.url }}" height=300>
     {% else %}
     <br>
     {% endif %}
@@ -29,7 +29,7 @@
     <p>{{ post.body | linebreaks }}</p>
 
     <h3>Leave a comment:</h3>
-    <form action="/blog/{{ post.pk }}/" method="post">
+    <form action="/blog/{{ post.pk }}/" method="post" class="comment-form">
         {% csrf_token %}
         <div class="form-group">
             {{ form.author }}
@@ -39,14 +39,19 @@
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
-    <h3>Comments:</h3>
+
+    {% if comments %}
+    <h3>Comments ({{ comments|length }}):</h3>
+    {% endif %}
+
     {% for comment in comments %}
     <p>
-        On {{comment.created_on.date }}&nbsp;
+        On {{comment.created_on.date }} at {{ comment.created_on.time }}&nbsp;
         <b>{{ comment.author }}</b> wrote:
     </p>
     <p>{{ comment.body }}</p>
     <hr>
     {% endfor %}
 </div>
+<hr>
 {% endblock content %}

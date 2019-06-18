@@ -1,10 +1,11 @@
-.menu-img {
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
-
-
-
 a {
     color: #17252a;
+}
+
+.object-fit-cover {
+  object-fit: cover;
+}
+
+.comment-form {
+    margin-bottom: 20px;
 }
