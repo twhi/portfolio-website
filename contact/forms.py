@@ -8,7 +8,7 @@ class ContactForm(forms.Form):
             'placeholder': 'Your name'  # default text
         }
     ))
-    email = forms.CharField(max_length=256, widget=forms.TextInput(
+    email = forms.EmailField(widget=forms.TextInput(
         attrs={
             'class': 'form-control',  # specify CSS class
             'placeholder': 'Your email address'  # default text

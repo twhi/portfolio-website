@@ -1,0 +1,11 @@
+a {
+    color: #17252a;
+}
+
+.object-fit-cover {
+  object-fit: cover;
+}
+
+.comment-form {
+    margin-bottom: 20px;
+}

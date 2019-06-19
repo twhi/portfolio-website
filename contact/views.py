@@ -14,7 +14,6 @@ def contact(request):
         form = ContactForm(request.POST)
         if form.is_valid():
             subject = '[WEBSITE] Message received from website contact form!'
-            name = form.cleaned_data['name']
             email = form.cleaned_data['email']
             message = 'Sender name: ' + form.cleaned_data['name'] + \
                       '\nMessage from: ' + form.cleaned_data['email'] + \

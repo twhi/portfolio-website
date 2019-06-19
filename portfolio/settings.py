@@ -11,21 +11,17 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+is_prod = os.environ.get('IS_PROD')
 
-env = 'prod'
-
-tester = os.environ.get('TESTER')
-print(tester)
-
-if env == 'dev':
-    try:
-        from .settings_dev import *
-    except Exception as e:
-        print(e)
-    print('Using development environment settings.')
-else:
+if is_prod:
     try:
         from .settings_prod import *
     except Exception as e:
         print(e)
     print('Using production environment settings.')
+else:
+    try:
+        from .settings_dev import *
+    except Exception as e:
+        print(e)
+    print('Using development environment settings.')

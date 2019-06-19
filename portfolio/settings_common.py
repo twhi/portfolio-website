@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'blog',
     'contact',
     'storages',
+    'markdownx',
 ]
 
 MIDDLEWARE = [
@@ -94,9 +95,6 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'portfolio', 'static'),
-    os.path.join(BASE_DIR, 'home', 'static'),
-    os.path.join(BASE_DIR, 'jobs', 'static'),
-    os.path.join(BASE_DIR, 'blog', 'static')
 ]
 
 MEDIA_URL = '/media/'

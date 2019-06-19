@@ -3,7 +3,6 @@ from django.http import HttpResponseRedirect
 from .models import Post, Comment
 from .forms import CommentForm
 
-
 def blog_index(request):
     posts = Post.objects.all().order_by('-created_on') # hyphen tells django to order by the largest first
     context = {
@@ -25,7 +24,6 @@ def blog_category(request, category):
 
 def blog_detail(request, blog_id):
     post = get_object_or_404(Post, pk=blog_id)
-
     # load comment form
     if request.method == 'POST':
         form = CommentForm(request.POST)
@@ -36,7 +34,7 @@ def blog_detail(request, blog_id):
                 post=post
             )
             comment.save()
-            return HttpResponseRedirect('')
+            return HttpResponseRedirect(request.path_info)
     else:
         form = CommentForm()
 
