@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="col-md-8 offset-md-2">
+    <h1>Tracklist to Spotify</h1>
+    <hr class="hr-title">
+    <p>Converts online tracklists to Spotify playlists</p>
+
+    <form action="." method="post" class="submit">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.url }}
+        </div>
+
+        {% if form.errors %}
+            {% include 'form_errors.html' %}
+        {% endif %}
+
+        <button type="submit" class="btn btn-primary" name="tracklist-submit">Submit</button>
+        <button type="submit" class="btn btn-primary" name="spotify-connect">Connect to Spotify</button>
+    </form>
+
+    {% if tracklist %}
+        <p>These are the tracks that I found:</p>
+        <table>
+            <tr>
+                <th>Artist</th>
+                <th>Track</th>
+            </tr>
+        {% for track in tracklist %}
+        <tr>
+            <td>{% for artist in track.artist %} {{ artist }} {% endfor %}</td>
+            <td>{{ track.title }}</td>
+        </tr>
+        {% endfor %}
+        </table>
+
+        {# TODO render this on a different page and give the user the option to sign into spotify and add the playlist #}
+    {% endif %}
+
+</div>
+{% endblock content %}

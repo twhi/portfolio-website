@@ -7,25 +7,22 @@
 
 
 {% block content %}
-<div class="container text-center">
 
-    {# lead image start #}
-    <img class="img-fluid" src="{% static 'home_static/me.jpg' %}">
-    <h1 class="mb-0"><b>Tom Whitehead</b></h1>
-    <hr class="hr-title">
-    {# lead image start #}
+<div class="text-center">
+    <section class="landing-section landing-main" style="">
+        <div class="landing-section-content">
+            <img class="img-fluid" src="{% static 'home_static/me.jpg' %}">
+            <h1 class="main-title"><b>Tom Whitehead</b></h1>
+            <hr class="hr-title">
+            <h3 class="landing-main-text tagline">A collection of some of my personal technology projects</h3>
+        </div>
+    </section>
 
-    {# tagline start #}
-    <div class="row">
-        <div class="col-lg-4 ml-auto">
-          <p class="tagline">Hey, my name is Tom - welcome to my website! Here you'll find a collection of some of the projects I've built. I mostly build stuff using Python, but I'm always looking to increase my skillset!</p>
-        </div>
-        <div class="col-lg-4 mr-auto">
-          <p class="tagline">If you have any feedback on some of the work I've done, or if you'd like to collaborate, then please get in touch with me on the Contact page.</p>
-        </div>
+
+    <div class="col-md-6 offset-md-3 about">
+        {% for a in about %}
+        {{ a.formatted_markdown|safe }}
+        {% endfor %}
     </div>
-    {# tagline end #}
-
-
 </div>
 {% endblock content %}

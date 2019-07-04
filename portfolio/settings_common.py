@@ -19,7 +19,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '***REMOVED***'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')  # DJANGO_SECRET_KEY
 
 # Application definition
 INSTALLED_APPS = [
@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'contact',
     'storages',
     'markdownx',
+    'tracklist',
 ]
 
 MIDDLEWARE = [

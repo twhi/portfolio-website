@@ -13,11 +13,26 @@
 
 img {
     max-height: 300px;
-    margin-top: 20px;
     margin-bottom: 20px;
     border-radius: 50%;
 }
 
 .tagline {
-    text-align: justify;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+}
+
+.landing-section {
+  min-height: 80vh;
+  width: 100vw;
+  max-width:100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.landing-main {
+  background: url("banner.jpg") no-repeat center center fixed;
+  background-size:cover;
 }

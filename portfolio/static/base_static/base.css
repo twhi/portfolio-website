@@ -4,7 +4,7 @@ body {
 
 .content {
     background-color: #fffef7;
-    padding-top: 20px;
+
 }
 
 h1 {
@@ -28,7 +28,9 @@ h1 {
     font-family: 'Montserrat', sans-serif;
     font-weight: 900;
     text-transform: uppercase;
+    padding-top: 50px;
 }
+
 
 .title-img {
     display: block;

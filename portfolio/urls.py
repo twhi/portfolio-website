@@ -25,7 +25,8 @@ urlpatterns = [
     path('jobs/', include('jobs.urls')),
     path('blog/', include('blog.urls')),
     path('contact/', include('contact.urls')),
-    path('markdownx/', include('markdownx.urls'))
+    path('markdownx/', include('markdownx.urls')),
+    path('tracklist/', include('tracklist.urls')),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
