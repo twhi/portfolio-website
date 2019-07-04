@@ -30,7 +30,7 @@ DATABASES = {
         'USER': os.environ.get('PROD_DB_USER'),
         'PASSWORD': os.environ.get('PROD_DB_PASSWORD'),
         'HOST': os.environ.get('PROD_DB_HOST'),
-        'PORT': os.environ.get('AWS_BUCKET_NAME'),
+        'PORT': 5432,
     }
 }
 
