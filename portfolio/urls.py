@@ -27,6 +27,7 @@ urlpatterns = [
     path('contact/', include('contact.urls')),
     path('markdownx/', include('markdownx.urls')),
     path('tracklist/', include('tracklist.urls')),
+    path('social/', include('social_django.urls'))
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -28,10 +28,12 @@ img {
   min-height: 80vh;
   width: 100vw;
   max-width:100%;
+  display: -webkit-flex;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  -webkit-flex-direction: column;
 }
 
 .landing-main {

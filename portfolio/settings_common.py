@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'contact',
     'storages',
     'markdownx',
+    'social_django',
     'tracklist',
 ]
 
@@ -100,3 +101,19 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR
+
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'social_core.backends.spotify.SpotifyOAuth2',
+)
+
+SOCIAL_AUTH_POSTGRES_JSONFIELD = True
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
+
+SOCIAL_AUTH_SPOTIFY_KEY = '***REMOVED***'
+SOCIAL_AUTH_SPOTIFY_SECRET = '***REMOVED***'
+SOCIAL_AUTH_SPOTIFY_SCOPE = ['user-library-read', 'playlist-modify-public', 'user-read-private']
+
+LOGIN_REDIRECT_URL = '/tracklist'
+

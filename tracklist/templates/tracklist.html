@@ -20,7 +20,15 @@
 
         <button type="submit" class="btn btn-primary" name="tracklist-submit">Submit</button>
         <button type="submit" class="btn btn-primary" name="spotify-connect">Connect to Spotify</button>
+
+        <a href='{% url "social:begin" "spotify" %}'>Spotify</a>
+
     </form>
+
+    {% if user.is_authenticated %}
+        <p>Logged in bro!</p>
+        <p>Here's some details: {{ user }}</p>
+    {% endif %}
 
     {% if tracklist %}
         <p>These are the tracks that I found:</p>
