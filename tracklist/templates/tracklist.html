@@ -6,46 +6,84 @@
 <div class="col-md-8 offset-md-2">
     <h1>Tracklist to Spotify</h1>
     <hr class="hr-title">
-    <p>Converts online tracklists to Spotify playlists</p>
+    <p>Converts online tracklists to Spotify playlists. Only works on NTS shows at the moment (<a
+            href="https://www.nts.live/shows/youll-soon-know/episodes/you-ll-soon-know-27th-june-2019">For example</a>)
+        - will be adapted for
+        other websites soon.</p>
+    <p>First hit 'Connect to Spotify' - this will take you to the Spotify website to authenticate you account. Next, copy
+        and paste an NTS show into the box below, and hit submit tracklist. If the app can find a track list, it will be
+        displayed. Finally, enter a playlist name and hit 'Add to playlist' to add the tracklist to your library.</p>
 
     <form action="." method="post" class="submit">
         {% csrf_token %}
         <div class="form-group">
-            {{ form.url }}
+            {{ tl_form.url }}
+            <button type="submit" class="btn btn-primary" name="tracklist-submit">Submit tracklist</button>
         </div>
 
-        {% if form.errors %}
-            {% include 'form_errors.html' %}
+        {% if tl_form.errors %}
+        {% include 'form_errors.html' %}
         {% endif %}
 
-        <button type="submit" class="btn btn-primary" name="tracklist-submit">Submit</button>
-        <button type="submit" class="btn btn-primary" name="spotify-connect">Connect to Spotify</button>
+        {% if spotify_username %}
+        <p>Logged in bro! Your spotify username is: {{ spotify_username }}</p>
+        {% else %}
+        <a href='{% url "social:begin" "spotify" %}'>Connect to Spotify</a>
+        {% endif %}
 
-        <a href='{% url "social:begin" "spotify" %}'>Spotify</a>
+        {% comment %}
+        {% if user_playlists %}
+        <p>Here's a list of your playlists</p>
+        <select name="playlists">
+            {% for pl in user_playlists %}
+            <option value="{{ pl }}">{{ pl }}</option>
+            {% endfor %}
+        </select>
+        {% endif %}
+        {% endcomment %}
 
     </form>
 
-    {% if user.is_authenticated %}
-        <p>Logged in bro!</p>
-        <p>Here's some details: {{ user }}</p>
-    {% endif %}
 
     {% if tracklist %}
-        <p>These are the tracks that I found:</p>
-        <table>
-            <tr>
-                <th>Artist</th>
-                <th>Track</th>
-            </tr>
+    <p>These are the tracks that I found:</p>
+    <table>
+        <tr>
+            <th>Artist</th>
+            <th>Track</th>
+        </tr>
         {% for track in tracklist %}
         <tr>
             <td>{% for artist in track.artist %} {{ artist }} {% endfor %}</td>
             <td>{{ track.title }}</td>
         </tr>
         {% endfor %}
-        </table>
+    </table>
+    <hr>
+    <p>Would you like to add this to your Spotify?</p>
+    <p>Enter a playlist name (can be an existing playlist)</p>
 
-        {# TODO render this on a different page and give the user the option to sign into spotify and add the playlist #}
+    {% comment %}
+    {% if user_playlists %}
+    <select name="playlists">
+        {% for pl in user_playlists %}
+        <option value="{{ pl }}">{{ pl }}</option>
+        {% endfor %}
+    </select>
+    {% endif %}
+    {% endcomment %}
+
+    <form action="." method="post" class="submit">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ sp_form.playlist_name }}
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary" name="add-to-spotify">Add to playlist!</button>
+        </div>
+    </form>
+
     {% endif %}
 
 </div>

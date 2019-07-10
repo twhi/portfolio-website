@@ -104,8 +104,8 @@ MEDIA_ROOT = BASE_DIR
 
 
 AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
     'social_core.backends.spotify.SpotifyOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
 )
 
 SOCIAL_AUTH_POSTGRES_JSONFIELD = True
