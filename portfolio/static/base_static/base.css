@@ -31,6 +31,12 @@ h1 {
     padding-top: 50px;
 }
 
+h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding-top: 50px;
+}
 
 .title-img {
     display: block;

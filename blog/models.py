@@ -2,6 +2,7 @@ from django.db import models
 from markdownx.models import MarkdownxField
 from markdownx.utils import markdownify
 
+
 class Category(models.Model):
     name = models.CharField(max_length=20)
 

@@ -6,6 +6,7 @@ import spotipy
 import re
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
+from social_django.utils import load_strategy
 
 
 def get_authorised_user(r):
@@ -13,6 +14,7 @@ def get_authorised_user(r):
         user = r.user
         return user.social_auth.get(provider='spotify')
     except:
+        print('Could not find an authorised user')
         return None
 
 
@@ -50,19 +52,28 @@ def _get_track_id_from_search_results(results, track):
 def _add_to_playlist(sp, un, playlist_id, track_id):
     if track_id:
         sp.user_playlist_add_tracks(user=un, playlist_id=playlist_id, tracks=track_id)
-        return True
+        return 1
     else:
-        return False
+        return 0
 
 
 def add_to_spotify(sp, tl, pl, un):
-    print('adding track to spotify playlist', pl)
+    found_count = 0
+
     playlist_id = _make_playlist(sp, pl, un)
     for track in tl:
         search_string = _construct_search_string(track)
         results = sp.search(q=search_string, limit=10)
         track_id = _get_track_id_from_search_results(results, track)
-        _add_to_playlist(sp, un, playlist_id, track_id)
+        found = _add_to_playlist(sp, un, playlist_id, track_id)
+        found_count += found
+
+        if found == 1:
+            track['found'] = True
+        else:
+            track['found'] = False
+
+    return found_count, len(tl), tl
 
 
 def _make_playlist(sp, pl, un):
@@ -81,16 +92,31 @@ def _make_playlist(sp, pl, un):
 
 
 def tracklist(request):
+    found = None
+    total = None
     sp_username = None
     tracklist = None
     pl = None
     sp_form = None
+    complete = False
 
     user = get_authorised_user(request)
     if user:
+        sp_username = user.uid
+        print('found user')
         # start authenticated spotipy instance
         sp_access_token = user.extra_data['access_token']
         sp = spotipy.Spotify(auth=sp_access_token)
+
+        # try a task that requires authentication
+        try:
+            sp.user(sp_username)
+        except:
+            # if this fails then refresh the token using load_strategy()
+            strategy = load_strategy()
+            user.refresh_token(strategy)
+            sp_access_token = user.extra_data['access_token']
+            sp = spotipy.Spotify(auth=sp_access_token)
 
         # get user's playlists
         sp_username = user.uid
@@ -103,8 +129,10 @@ def tracklist(request):
         if 'tracklist-submit' in request.POST:
             tl_form = TracklistForm(request.POST)
             if tl_form.is_valid():
+                print('doing tracklist shit')
                 url = tl_form.cleaned_data['url']
                 tracklist = get_data(url)
+                print(tracklist)
                 request.session['tracklist'] = tracklist
 
         elif 'add-to-spotify' in request.POST:
@@ -112,9 +140,10 @@ def tracklist(request):
             if 'tracklist' in request.session:
                 sp_form = SpotifyForm(request.POST)
                 if sp_form.is_valid():
-                    tl = request.session['tracklist']
+                    tracklist = request.session['tracklist']
                     pl = sp_form.cleaned_data['playlist_name']
-                    add_to_spotify(sp, tl, pl, sp_username)
+                    (found, total, tracklist) = add_to_spotify(sp, tracklist, pl, sp_username)
+                    complete = True
 
     context = {
         'tl_form': tl_form,
@@ -122,16 +151,27 @@ def tracklist(request):
         'tracklist': tracklist,
         'spotify_username': sp_username,
         'user_playlists': pl,
+        'found': found,
+        'total': total,
+        'complete': complete,
         'tracklist_page': 'active'
     }
     return render(request, 'tracklist.html', context)
 
 
 def get_data(url):
-    tracklist_html = get_tracklist_from_url(url)
-    artist_list = get_artists_from_html(tracklist_html)
-    track_list = get_tracks_from_html(tracklist_html)
-    setlist = contruct_setlist(track_list, artist_list)
+    setlist = None
+    try:
+        tracklist_html = get_tracklist_from_url(url)
+        artist_list = get_artists_from_html(tracklist_html)
+        track_list = get_tracks_from_html(tracklist_html)
+        setlist = contruct_setlist(track_list, artist_list)
+    except:
+        pass
+
+    if not setlist:
+        setlist = "Error"
+
     return setlist
 
 

@@ -1,5 +1,5 @@
 .hr-title {
-    color:#17252a;
+    color: white;
     max-width: 15rem;
     padding: 0;
     text-align: center;
@@ -13,6 +13,7 @@
 
 img {
     max-height: 300px;
+    margin-top: 20px;
     margin-bottom: 20px;
     border-radius: 50%;
 }
@@ -20,19 +21,35 @@ img {
 .tagline {
     font-family: 'Montserrat', sans-serif;
     font-weight: 400;
+    color: white;
 }
 
 .landing-section {
   min-height: 80vh;
   width: 100vw;
   max-width:100%;
+  display: -webkit-flex;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  -webkit-flex-direction: column;
 }
 
 .landing-main {
   background: url("banner.jpg") no-repeat center center fixed;
   background-size:cover;
+}
+
+.main-title {
+    padding-top: 20px;
+    color: white;
+}
+
+.about {
+    text-align: justify;
+}
+
+.about > h1 {
+    padding-top: 50px;
 }
