@@ -26,12 +26,10 @@
 
     <h1>Tracklistify</h1>
     <hr class="hr-title">
-    <p>Found a radio show that you love and would like to create a playlist from? Tracklistify has got your
-        back. Simply authorise your Spotify account and enter a URL for a radio show that contains a tracklist
+    <p>Found a radio show that you love and would like to create a playlist from? Tracklistify has got you. Simply authorise your Spotify account and enter a URL for a radio show that contains a tracklist
         (<a href="https://www.nts.live/shows/youll-soon-know/episodes/you-ll-soon-know-27th-june-2019">for example</a>)
         and Tracklistify will do the rest!</p>
-    <p>This currently only works for NTS radio shows, but will be adapted for other websites very soon! (BBC Radio,
-        you're next)</p>
+    <p>This currently only works for NTS and BBC iPlayer radio shows, but will be adapted for other websites very soon!</p>
 
     {# sign into spotify #}
     <h2>Step 1: Sign into Spotify</h2>
@@ -59,7 +57,7 @@
         </form>
 
         {% if tracklist and tracklist != "Error" %}
-        <p>These are the tracks that I found:</p>
+        <p>These are the tracks that I found at that website:</p>
         <table>
             <tr>
                 <th>Artist</th>
@@ -69,12 +67,13 @@
             {% for track in tracklist %}
             <tr>
                 <td>{% for artist in track.artist %} {{ artist }} {% endfor %}</td>
-                <td>{{ track.title }}</td>
+                <td>{% for title in track.title %} {{ title }} {% endfor %}</td>
                 {% if complete %}<td>{{ track.found }}</td>{% endif %}
             </tr>
             {% endfor %}
         </table>
-        <h2>Step 3: Give your play list a name and add to Spotify</h2>
+
+        <h2>Step 3: Customise your playlist</h2>
         <hr>
         <form action="." method="post" class="submit">
             {% csrf_token %}
