@@ -13,7 +13,7 @@ class Tracklist:
             'method': 'requests'
         },
         'bbc': {
-            'xpath_track': '//li[contains(@class, "segments-list__item")]',
+            'xpath_track': 'segments-list__item--music', # '//li[contains(@class, "segments-list__item")]',
             'xpath_artist': '//h3[@class="gamma no-margin"]/span[@class="artist"]',
             'xpath_title': '//p[@class="no-margin"]/span',
             'method': 'selenium'
