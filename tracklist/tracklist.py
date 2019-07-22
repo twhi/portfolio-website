@@ -31,7 +31,6 @@ class Tracklist:
     def _xpath_lookup(self):
         if self.website in self.XPATH_TABLE:
             return self.XPATH_TABLE[self.website]
-        return None
 
     def _get_data_from_web(self):
         if self.xpath['method'] == 'requests':

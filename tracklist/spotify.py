@@ -31,7 +31,7 @@ class Spotify:
 
             # try a task that requires authentication if this fails then the token has expired.
             try:
-                sp.user(self.spotify_username)
+                sp.user(self.get_spotify_username())
             except Exception as e:
                 print(e)
                 # refresh the token using load_strategy()
