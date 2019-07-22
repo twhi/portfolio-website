@@ -9,6 +9,7 @@ def tracklist(request):
     total = None
     tracklist = None
     pl = None
+    tl = None
     complete = False
 
     tl_form = TracklistForm()
@@ -23,9 +24,21 @@ def tracklist(request):
             tl_form = TracklistForm(request.POST)
             if tl_form.is_valid():
                 url = tl_form.cleaned_data['url']
-                tl = Tracklist(url)
+
+                try:
+                    tl = Tracklist(url)
+                except Exception as e:
+                    if tl:
+                        tl.driver.quit()
+                    raise e
+
                 if tl.raw_html:
-                    tracklist = tl.construct_tracklist()
+                    try:
+                        tracklist = tl.construct_tracklist()
+                    except Exception as e:
+                        print(e)
+                        tracklist = "TracklistError"
+
                 request.session['tracklist'] = tracklist
 
         elif 'add-to-spotify' in request.POST:

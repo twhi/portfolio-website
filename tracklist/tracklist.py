@@ -4,6 +4,7 @@ import requests
 from selenium.webdriver.chrome.options import Options
 from selenium import webdriver
 
+
 class Tracklist:
     XPATH_TABLE = {
         'nts': {
@@ -13,8 +14,8 @@ class Tracklist:
             'method': 'requests'
         },
         'bbc': {
-            'xpath_track': 'segments-list__item--music', # '//li[contains(@class, "segments-list__item")]',
-            'xpath_artist': '//h3[@class="gamma no-margin"]/span[@class="artist"]',
+            'xpath_track': '//li[contains(@class, "segments-list__item--music")]',  # '//li[contains(@class, "segments-list__item")]',
+            'xpath_artist': '//*[@class="gamma no-margin"]/span[@class="artist"]',
             'xpath_title': '//p[@class="no-margin"]/span',
             'method': 'selenium'
         }
@@ -59,25 +60,24 @@ class Tracklist:
     def extract_element_text(elem):
         return [l.text for l in elem]
 
-    @staticmethod
-    def _requests_get(u):
-        session = requests.Session()
+
+    def _requests_get(self, u):
+        self.session = requests.Session()
         try:
-            return session.get(u).text
+            return self.session.get(u).text
         except Exception as e:
             print(e)
             return None
 
-    @staticmethod
-    def _selenium_get(u):
+    def _selenium_get(self, u):
         chrome_options = Options()
         chrome_options.add_argument('--headless')
-        driver = webdriver.Chrome(options=chrome_options)
+        self.driver = webdriver.Chrome(options=chrome_options)
         try:
-            driver.get(u)
-            page_source = driver.page_source
+            self.driver.get(u)
+            page_source = self.driver.page_source
         except Exception as e:
             print(e)
             page_source = None
-        driver.quit()
+        self.driver.quit()
         return page_source

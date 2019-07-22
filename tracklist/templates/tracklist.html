@@ -24,6 +24,14 @@
     </div>
     {% endif %}
 
+    {% if tracklist == "TracklistError" %}
+    <div class="header-alert">
+        <div class="alert alert-danger">
+            Process failed, there was an issue connecting to the website. Please try again
+        </div>
+    </div>
+    {% endif %}
+
     <h1>Tracklistify</h1>
     <hr class="hr-title">
     <p>Found a radio show that you love and would like to create a playlist from? Tracklistify has got you. Simply authorise your Spotify account and enter a URL for a radio show that contains a tracklist
