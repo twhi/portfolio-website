@@ -15,7 +15,12 @@
     {% if spotify_username %}
 
     {% if tracklist and tracklist != "Error" %}
-    <p>These are the tracks that I found at {{ website_name }}:</p>
+    <h2>Step 3: Customise your playlist</h2>
+    <hr>
+    <p>Here you can customise your playlist, by selecting exactly which songs are added to your playlist, and also the name of your playlist.</p>
+    <p>Below is a list of the tracks that I found at {{ website_name }}. Just because I've found these tracks on the web
+        doesn't mean they'll exist on Spotify! Use the checkboxes to toggle which tracks you'd like to include/exclude
+        from your playlist. </p>
 
     <form action="." method="post" class="submit">
         {% csrf_token %}
@@ -40,10 +45,8 @@
             </tbody>
         </table>
 
-
-        <h2>Step 3: Customise your playlist</h2>
         <hr>
-        {% csrf_token %}
+        <p>Choose a name for your playlist. If you choose a playlist name that already exists on your account, the tracks will be added to this playlist.</p>
         <div class="form-group">
             {{ sp_form.playlist_name }}
         </div>
@@ -69,5 +72,6 @@ $('input[name="chk"]').click(function () {
     $(this).closest('tr').removeClass('foo');
     if ($(this).is(':checked')) $(this).closest('tr').addClass('foo');
 })
+
 </script>
 {% endblock scripts %}
