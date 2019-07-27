@@ -16,8 +16,8 @@
         authorise your Spotify account and enter a URL for a radio show that contains a tracklist
         (<a href="https://www.nts.live/shows/youll-soon-know/episodes/you-ll-soon-know-27th-june-2019">for example</a>)
         and Tracklistify will do the rest!</p>
-    <p>This currently only works for NTS and BBC iPlayer radio shows, but will be adapted for other websites very
-        soon!</p>
+    <p>This currently now works on the <a href="https://www.bbc.co.uk/sounds/schedules">BBC iPlayer Radio</a>, <a
+            href="https://www.mixesdb.com/w/Main_Page">MixesDB</a> and <a href="https://www.nts.live/">NTS websites</a>. If you would like this to be adapted to work on any other websites that publishes tracklists, <a href="{% url 'contact_index' %}">get in touch</a> and let me know!</p>
 
     {# sign into spotify #}
     <h2 class="step-h2">Step 1: Sign into Spotify</h2>
@@ -28,9 +28,12 @@
     <br>
     <p>Connected to Spotify! Your spotify username is: <b>{{ spotify_username }}</b></p>
     <a class="btn btn-primary btn-spotify" href="{% url 'logout' %}?next=/tracklist">Logout</a>
-    <p>Logging out will only log you out of your Spotify account on this website. If you want to fully log out of your Spotify account, then you will need to go to the <a href="https://www.spotify.com/">Spotify website</a> and log out there too!</p>
+    <p>Logging out will only log you out of your Spotify account on this website. If you want to fully log out of your
+        Spotify account, then you will need to go to the <a href="https://www.spotify.com/">Spotify website</a> and log
+        out there too!</p>
     {% else %}
-    <a class="btn btn-primary btn-spotify btn-connect" href='{% url "social:begin" "spotify" %}?next=/tracklist'>Connect to Spotify</a>
+    <a class="btn btn-primary btn-spotify btn-connect" href='{% url "social:begin" "spotify" %}?next=/tracklist'>Connect
+        to Spotify</a>
     {% endif %}
 
     {% if spotify_username %}
