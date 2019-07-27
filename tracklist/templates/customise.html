@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'tracklist_static/tracklist.css' %}">
+{% endblock styles %}
+
+{% block content %}
+<div class="col-md-8 offset-md-2">
+    {% include 'tracklist_alerts.html' %}
+
+    <h1>Tracklistify</h1>
+    <hr class="hr-title">
+
+    {% if spotify_username %}
+
+    {% if tracklist and tracklist != "Error" %}
+    <p>These are the tracks that I found at {{ website_name }}:</p>
+
+    <form action="." method="post" class="submit">
+        {% csrf_token %}
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Artist</th>
+                <th scope="col">Track</th>
+                <th scope="col" class="centre-table">Include in Playlist?</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for track in tracklist %}
+            <tr class="">
+                <td>{% for artist in track.artist %}{{ artist }}{% endfor %}</td>
+                <td>{% for title in track.title %}{{ title }}{% endfor %}</td>
+                <td class="centre-table"><input type="checkbox" id="chk{{ forloop.counter0 }}" name="chk"
+                                                value="{{ forloop.counter0 }}" checked/>&nbsp;
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+
+        <h2>Step 3: Customise your playlist</h2>
+        <hr>
+        {% csrf_token %}
+        <div class="form-group">
+            {{ sp_form.playlist_name }}
+        </div>
+
+        {% if spotify_username %}
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-spotify" name="add-to-spotify">Add to playlist!</button>
+        </div>
+        {% endif %}
+    </form>
+    {% endif %}
+    {% endif %}
+
+</div>
+{% endblock content %}
+
+{% block scripts %}
+
+<script src="{% static 'tracklist_static/checkboxesSelect.js' %}"></script>
+
+<script>
+$('input[name="chk"]').click(function () {
+    $(this).closest('tr').removeClass('foo');
+    if ($(this).is(':checked')) $(this).closest('tr').addClass('foo');
+})
+</script>
+{% endblock scripts %}

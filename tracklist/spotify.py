@@ -3,6 +3,7 @@ from social_django.utils import load_strategy
 import re
 from fuzzywuzzy import fuzz, process
 
+
 class Spotify:
     found_count = 0
 
@@ -102,4 +103,3 @@ class Spotify:
                 track_id = [result['id']]
                 return track_id
         return False
-

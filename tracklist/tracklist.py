@@ -11,13 +11,22 @@ class Tracklist:
             'xpath_track': '//li[@class="track"]',
             'xpath_artist': '//span[@class="track__artist"]',
             'xpath_title': '//span[@class="track__title"]',
-            'method': 'requests'
+            'method': 'requests',
+            'name': 'NTS Radio',
         },
         'bbc': {
-            'xpath_track': '//li[contains(@class, "segments-list__item--music")]',  # '//li[contains(@class, "segments-list__item")]',
+            'xpath_track': '//li[contains(@class, "segments-list__item--music")]',
             'xpath_artist': '//*[@class="gamma no-margin"]/span[@class="artist"]',
             'xpath_title': '//p[@class="no-margin"]/span',
-            'method': 'selenium'
+            'method': 'requests',
+            'name': 'BBC iPlayer Radio',
+        },
+        'mixesdb': {
+            'xpath_track': '//li[contains(@class,"aff-api-done")]',
+            'xpath_artist': '//span//@data-keywordsartist',
+            'xpath_title': '//span//@data-keywordstitle',
+            'method': 'selenium',
+            'name': 'MixesDB',
         }
     }
 
@@ -58,8 +67,10 @@ class Tracklist:
 
     @staticmethod
     def extract_element_text(elem):
-        return [l.text for l in elem]
-
+        try:
+            return [l.text for l in elem]
+        except:
+            return elem
 
     def _requests_get(self, u):
         self.session = requests.Session()
@@ -81,3 +92,9 @@ class Tracklist:
             page_source = None
         self.driver.quit()
         return page_source
+
+
+if __name__ == '__main__':
+    tl = Tracklist('https://www.bbc.co.uk/programmes/m0006z0k')
+    t = tl.construct_tracklist()
+    ender = True

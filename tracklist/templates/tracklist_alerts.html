@@ -1,0 +1,23 @@
+{% if found %}
+<div class="header-alert">
+    <div class="alert alert-success">
+        <strong>Success!</strong> Managed to find {{ found }} out of {{ total }} tracks!
+    </div>
+</div>
+{% endif %}
+
+{% if tracklist == "Error" %}
+<div class="header-alert">
+    <div class="alert alert-danger">
+        Process failed, unable to find tracklist at specified URL :(
+    </div>
+</div>
+{% endif %}
+
+{% if tracklist == "TracklistError" %}
+<div class="header-alert">
+    <div class="alert alert-danger">
+        Process failed, there was an issue connecting to the website. Please try again
+    </div>
+</div>
+{% endif %}

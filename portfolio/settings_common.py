@@ -8,6 +8,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
+SOCIAL_AUTH_REVOKE_TOKENS_ON_DISCONNECT = True
+
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',

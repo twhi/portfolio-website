@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'tracklist_static/tracklist.css' %}">
+{% endblock styles %}
+
+{% block content %}
+<div class="col-md-8 offset-md-2">
+    <h1>Tracklistify {{ faggot }}</h1>
+    <hr class="hr-title">
+    {% include 'tracklist_alerts.html' %}
+    {% if tracklist and tracklist != "Error" %}
+    <p>These are the tracks I managed to find on Spotify</p>
+    <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Artist</th>
+                <th scope="col">Track</th>
+                <th scope="col">Found?</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for track in tracklist %}
+            {% if track.found %}
+            <tr class="true">
+            {% else %}
+            <tr class="false">
+            {% endif %}
+                <td>{% for artist in track.artist %}{{ artist }}{% endfor %}</td>
+                <td>{% for title in track.title %}{{ title }}{% endfor %}</td>
+                <td>{{ track.found }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+    </table>
+    {% endif %}
+    <hr>
+    <a class="btn btn-primary my-2" href="{% url 'tracklist' %}">Start again</a>
+</div>
+{% endblock content %}
