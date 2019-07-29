@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from .forms import TracklistForm, SpotifyForm
 from .tracklist import Tracklist
 from .spotify import Spotify
+from .utils.exceptions import WebsiteNotSupportedError, InvalidUrlError, NoTracklistError
 
 
 def complete(request):
-
     context = {
         'found': request.session['found'],
         'total': request.session['total'],
@@ -24,11 +25,13 @@ def customise(request):
     spotify = Spotify(request)
     sp_username = spotify.get_spotify_username()
     if request.method == 'POST':
+
         if 'add-to-spotify' in request.POST:
+
             if 'tracklist' in request.session:
+
                 sp_form = SpotifyForm(request.POST)
                 if sp_form.is_valid():
-
                     # get selected checkboxes
                     checkboxes = request.POST.getlist('chk')
 
@@ -62,6 +65,7 @@ def customise(request):
 
 
 def connect(request):
+    tracklist = None
     tl = None
     tl_form = TracklistForm()
     spotify = Spotify(request)
@@ -73,21 +77,38 @@ def connect(request):
             if tl_form.is_valid():
                 url = tl_form.cleaned_data['url']
 
+                # get tracklist from web and error catching
                 try:
                     tl = Tracklist(url)
+                except InvalidUrlError as e:
+                    if tl:
+                        tl.driver.quit()
+                    messages.error(request,
+                                   "Unable to connect to URL. Is your URL valid? Attempted to access {}".format(e),
+                                   "danger")
+                    return redirect(request.path_info)
+                except WebsiteNotSupportedError as e:
+                    if tl:
+                        tl.driver.quit()
+                    messages.error(request, "Website not supported. Attempted to access {}".format(e), "danger")
+                    return redirect(request.path_info)
                 except Exception as e:
                     if tl:
                         tl.driver.quit()
-                    raise e
+                    messages.error(request, "An unknown error has occured. {}".format(e), "danger")
+                    return redirect(request.path_info)
 
-                if tl.raw_html:
-                    print(tl.raw_html)
-                    try:
-                        tracklist = tl.construct_tracklist()
-                        print(tracklist)
-                    except Exception as e:
-                        print(e)
-                        tracklist = "TracklistError"
+                # construct tracklist and error catching
+                try:
+                    tracklist = tl.construct_tracklist()
+                except NoTracklistError as e:
+                    messages.error(request,
+                                   "Unable to find a tracklist at specified URL. Attempted to access {}".format(e),
+                                   "danger")
+                    return redirect(request.path_info)
+                except Exception as e:
+                    messages.error(request, "An unknown error has occured. {}".format(e), "danger")
+                    return redirect(request.path_info)
 
                 request.session['website_name'] = tl.xpath['name']
                 request.session['tracklist'] = tracklist

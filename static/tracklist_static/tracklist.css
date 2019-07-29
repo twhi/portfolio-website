@@ -10,9 +10,17 @@ td, tr {
     margin-right:20px;
 }
 
+.error {
+    margin:15px;
+}
+
 .hover-table {
     width:100%;
     border-collapse:collapse;
+}
+
+.foo {
+    background: #999;
 }
 
 td label {

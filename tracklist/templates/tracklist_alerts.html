@@ -6,11 +6,13 @@
 </div>
 {% endif %}
 
-{% if tracklist == "Error" %}
-<div class="header-alert">
-    <div class="alert alert-danger">
-        Process failed, unable to find tracklist at specified URL :(
+{% if messages %}
+<div class="span12">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">
+        {{ message|safe }}
     </div>
+    {% endfor %}
 </div>
 {% endif %}
 

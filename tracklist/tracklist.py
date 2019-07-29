@@ -3,7 +3,8 @@ from lxml import etree
 import requests
 from selenium.webdriver.chrome.options import Options
 from selenium import webdriver
-
+# from utils import errors
+from .utils.exceptions import WebsiteNotSupportedError, InvalidUrlError, NoTracklistError
 
 class Tracklist:
     XPATH_TABLE = {
@@ -34,13 +35,24 @@ class Tracklist:
         self.url = url
         self.website = urlparse(url).hostname.split('.')[1]
         self.xpath = self._xpath_lookup()
+
+        if not self.xpath:
+            u = '{uri.scheme}://{uri.netloc}/'.format(uri=urlparse(self.url))
+            raise WebsiteNotSupportedError(u)
+
         self.raw_html = self._get_data_from_web()
+
+        if not self.raw_html:
+            u = '{uri.scheme}://{uri.netloc}/'.format(uri=urlparse(self.url))
+            raise InvalidUrlError(u)
+
         self.tree = etree.HTML(self.raw_html)
         self.tracklist = []
 
     def _xpath_lookup(self):
         if self.website in self.XPATH_TABLE:
             return self.XPATH_TABLE[self.website]
+        return None
 
     def _get_data_from_web(self):
         if self.xpath['method'] == 'requests':
@@ -49,21 +61,34 @@ class Tracklist:
             return self._selenium_get(self.url)
 
     def get_element_by_type(self, root, elem_type):
-        return root.xpath(self.XPATH_TABLE[self.website]['xpath_' + elem_type])
+        el = root.xpath(self.XPATH_TABLE[self.website]['xpath_' + elem_type])
+        if len(el) == 0:
+            return None
+        return el
 
     def construct_tracklist(self):
         tracks = self.get_element_by_type(self.tree, 'track')
+
+        if not tracks:
+            u = '{uri.scheme}://{uri.netloc}/'.format(uri=urlparse(self.url))
+            raise NoTracklistError(u)
 
         for track in tracks:
             track_dict = {}
             t = etree.HTML(etree.tostring(track))
             artist = self.get_element_by_type(t, 'artist')
             title = self.get_element_by_type(t, 'title')
-            track_dict['artist'] = self.extract_element_text(artist)
-            track_dict['title'] = self.extract_element_text(title)
+
+            track_dict['artist'] = self.remove_duplicates_from_list(self.extract_element_text(artist))
+            track_dict['title'] = self.remove_duplicates_from_list(self.extract_element_text(title))
             self.tracklist.append(track_dict)
 
         return self.tracklist
+
+
+    @staticmethod
+    def remove_duplicates_from_list(l):
+        return list(dict.fromkeys(l))
 
     @staticmethod
     def extract_element_text(elem):
@@ -95,6 +120,9 @@ class Tracklist:
 
 
 if __name__ == '__main__':
-    tl = Tracklist('https://www.bbc.co.uk/programmes/m0006z0k')
-    t = tl.construct_tracklist()
+    try:
+        tl = Tracklist('https://www.google.com')
+        t = tl.construct_tracklist()
+    except:
+        pass
     ender = True
