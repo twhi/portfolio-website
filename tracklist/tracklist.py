@@ -4,7 +4,10 @@ import requests
 from selenium.webdriver.chrome.options import Options
 from selenium import webdriver
 # from utils import errors
-from .utils.exceptions import WebsiteNotSupportedError, InvalidUrlError, NoTracklistError
+try:
+    from .utils.exceptions import WebsiteNotSupportedError, InvalidUrlError, NoTracklistError
+except ImportError:
+    from utils.exceptions import WebsiteNotSupportedError, InvalidUrlError, NoTracklistError
 
 class Tracklist:
     XPATH_TABLE = {
@@ -79,6 +82,9 @@ class Tracklist:
             artist = self.get_element_by_type(t, 'artist')
             title = self.get_element_by_type(t, 'title')
 
+            if not artist or not title:
+                continue
+
             track_dict['artist'] = self.remove_duplicates_from_list(self.extract_element_text(artist))
             track_dict['title'] = self.remove_duplicates_from_list(self.extract_element_text(title))
             self.tracklist.append(track_dict)
@@ -120,9 +126,8 @@ class Tracklist:
 
 
 if __name__ == '__main__':
-    try:
-        tl = Tracklist('https://www.google.com')
-        t = tl.construct_tracklist()
-    except:
-        pass
+
+    tl = Tracklist('https://www.nts.live/shows/questing-w-zakia/episodes/questing-w-zakia-14th-june-2019')
+    t = tl.construct_tracklist()
+
     ender = True
