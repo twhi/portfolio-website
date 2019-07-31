@@ -16,12 +16,13 @@ td, tr {
     justify-content: center;
     flex-direction: column;
     background-color: rgba(256, 256, 256, .85);
+
+    padding:10px
 }
 
 
 .tl-content {
-    margin-left: 60px;
-    margin-right: 60px;
+padding: 30px;
 }
 
 td {
