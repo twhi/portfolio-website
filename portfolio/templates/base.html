@@ -13,21 +13,22 @@
     {% block styles %}
     {% endblock styles %}
 </head>
-<body>
+<body class="page">
 
-<main role="main">
+
 
 <div id="header">
 {% include 'navbar.html' %}
 </div>
+<main class="page-content" role="main">
 
 <section class="content">
 {% block content %}{% endblock content %}
 </section>
 
-
-{% include 'footer.html' %}
 </main>
+{% include 'footer.html' %}
+
 
 <script src="{% static 'base_static/jquery-3.4.1.min.js' %}"></script>
 <script src="{% static 'base_static/popper.min.js' %}"></script>

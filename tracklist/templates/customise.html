@@ -1,77 +1,64 @@
-{% extends 'base.html' %}
+{% extends 'tracklist_base.html' %}
 {% load static %}
 
-{% block styles %}
-<link rel="stylesheet" href="{% static 'tracklist_static/tracklist.css' %}">
-{% endblock styles %}
 
-{% block content %}
-<div class="col-md-8 offset-md-2">
-    {% include 'tracklist_alerts.html' %}
+{% block tl_content %}
 
-    <h1>Tracklistify</h1>
-    <hr class="hr-title">
+<h1 class="tl-h1">Tracklistify</h1>
+<hr class="hr-title">
+
+{% if spotify_username %}
+
+{% if tracklist and tracklist != "Error" %}
+<h2>Step 3: Customise your playlist</h2>
+<hr>
+<p>Here you can customise your playlist, by selecting exactly which songs are added to your playlist, and also the name
+    of your playlist.</p>
+<p>Below is a list of the tracks that I found at {{ website_name }}. Just because I've found these tracks on the web
+    doesn't mean they'll exist on Spotify! Use the checkboxes to toggle which tracks you'd like to include/exclude
+    from your playlist. </p>
+
+<form action="." method="post" class="submit">
+    {% csrf_token %}
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">Artist</th>
+            <th scope="col">Track</th>
+            <th scope="col" class="centre-table">Include in Playlist?</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for track in tracklist %}
+        <tr class="">
+            <td>{% for artist in track.artist %}{{ artist }}{% endfor %}</td>
+            <td>{% for title in track.title %}{{ title }}{% endfor %}</td>
+            <td class="centre-table"><input type="checkbox" id="chk{{ forloop.counter0 }}" name="chk"
+                                            value="{{ forloop.counter0 }}" checked/>&nbsp;
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <hr>
+    <p>Choose a name for your playlist. If you choose a playlist name that already exists on your account, the tracks
+        will be added to this playlist.</p>
+    <div class="form-group">
+        {{ sp_form.playlist_name }}
+    </div>
 
     {% if spotify_username %}
-
-    {% if tracklist and tracklist != "Error" %}
-    <h2>Step 3: Customise your playlist</h2>
-    <hr>
-    <p>Here you can customise your playlist, by selecting exactly which songs are added to your playlist, and also the name of your playlist.</p>
-    <p>Below is a list of the tracks that I found at {{ website_name }}. Just because I've found these tracks on the web
-        doesn't mean they'll exist on Spotify! Use the checkboxes to toggle which tracks you'd like to include/exclude
-        from your playlist. </p>
-
-    <form action="." method="post" class="submit">
-        {% csrf_token %}
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th scope="col">Artist</th>
-                <th scope="col">Track</th>
-                <th scope="col" class="centre-table">Include in Playlist?</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for track in tracklist %}
-            <tr class="">
-                <td>{% for artist in track.artist %}{{ artist }}{% endfor %}</td>
-                <td>{% for title in track.title %}{{ title }}{% endfor %}</td>
-                <td class="centre-table"><input type="checkbox" id="chk{{ forloop.counter0 }}" name="chk"
-                                                value="{{ forloop.counter0 }}" checked/>&nbsp;
-                </td>
-            </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-
-        <hr>
-        <p>Choose a name for your playlist. If you choose a playlist name that already exists on your account, the tracks will be added to this playlist.</p>
-        <div class="form-group">
-            {{ sp_form.playlist_name }}
-        </div>
-
-        {% if spotify_username %}
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary btn-spotify" name="add-to-spotify">Add to playlist!</button>
-        </div>
-        {% endif %}
-    </form>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary btn-spotify" name="add-to-spotify">Add to playlist!</button>
+    </div>
     {% endif %}
-    {% endif %}
+</form>
+{% endif %}
+{% endif %}
 
-</div>
-{% endblock content %}
+{% endblock tl_content %}
 
 {% block scripts %}
-
 <script src="{% static 'tracklist_static/checkboxesSelect.js' %}"></script>
-
-<script>
-$('input[name="chk"]').click(function () {
-    $(this).closest('tr').removeClass('foo');
-    if ($(this).is(':checked')) $(this).closest('tr').addClass('foo');
-})
-
-</script>
 {% endblock scripts %}

@@ -10,17 +10,45 @@ td, tr {
     margin-right:20px;
 }
 
+.white-bg {
+    display: flex;
+    min-height: 60vh;
+    justify-content: center;
+    flex-direction: column;
+    background-color: rgba(256, 256, 256, .85);
+    padding-bottom: 5px;
+    padding-top: 50px;
+    margin-bottom: 20px
+}
+
+
+.tl-content {
+    flex: 1;
+    margin-left: 60px;
+    margin-right: 60px;
+}
+
+td {
+    cursor: pointer;
+}
+
+.page-content {
+ background: url("bg_2.jpg") no-repeat center center fixed;
+  background-size:cover;
+}
+
+
 .error {
-    margin:15px;
+    margin-top:10px;
+}
+
+.tl-h1 {
+    padding-top: 10px;
 }
 
 .hover-table {
     width:100%;
     border-collapse:collapse;
-}
-
-.foo {
-    background: #999;
 }
 
 td label {
@@ -50,6 +78,7 @@ table tr.false:hover {
     margin-top: 10px;
     margin-bottom: 10px;
     color: #fff;
+    border-style: none;
     background-color: #1db954;
 }
 

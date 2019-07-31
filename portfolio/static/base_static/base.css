@@ -1,10 +1,16 @@
 body {
-    background-color: #171d1c;
+  background-color: #171d1c;
 }
 
-.content {
-    background-color: #fffef7;
+.page {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
 
+.page-content {
+  flex: 1;
+  background-color:#bbb;
 }
 
 h1 {
