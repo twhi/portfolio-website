@@ -9,6 +9,7 @@ try:
 except ImportError:
     from utils.exceptions import WebsiteNotSupportedError, InvalidUrlError, NoTracklistError
 
+
 class Tracklist:
     XPATH_TABLE = {
         'nts': {
@@ -86,6 +87,7 @@ class Tracklist:
                 continue
 
             track_dict['artist'] = self.remove_duplicates_from_list(self.extract_element_text(artist))
+            print(track_dict['artist'])
             track_dict['title'] = self.remove_duplicates_from_list(self.extract_element_text(title))
             self.tracklist.append(track_dict)
 
@@ -127,7 +129,7 @@ class Tracklist:
 
 if __name__ == '__main__':
 
-    tl = Tracklist('https://www.nts.live/shows/questing-w-zakia/episodes/questing-w-zakia-14th-june-2019')
+    tl = Tracklist('https://www.bbc.co.uk/programmes/m0007b6z')
     t = tl.construct_tracklist()
 
     ender = True

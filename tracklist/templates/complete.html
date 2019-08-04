@@ -23,8 +23,8 @@
         {% else %}
     <tr class="false">
         {% endif %}
-        <td>{% for artist in track.artist %}{{ artist }}{% endfor %}</td>
-        <td>{% for title in track.title %}{{ title }}{% endfor %}</td>
+        <td>{{ track.artist|join:", " }}</td>
+        <td>{{ track.title| join:" " }}</td>
         <td>{{ track.found }}</td>
     </tr>
     {% endfor %}

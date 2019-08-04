@@ -103,3 +103,99 @@ class Spotify:
                 track_id = [result['id']]
                 return track_id
         return False
+
+
+class SpotifyTest:
+    found_count = 0
+
+    def __init__(self, spotipy_session, username):
+        self.spotipy_session = spotipy_session
+        self.username = username
+
+    @staticmethod
+    def _construct_search_string(t):
+        track_title = re.sub("[\(\[].*?[\)\]]", "", t['title'][0])  # REMOVE BRACKETS
+        track_title = re.sub(r'([^\s\w]|_)+', '', track_title)  # REMOVE PUNCTUATION
+        track_title.strip()  # REMOVE LEADING AND TRAILING WHITESPACE
+        track_artists = t['artist']
+        search_string = track_artists[0] + ' ' + track_title
+        return search_string
+
+    def add_to_spotify(self, tracklist, playlist_name):
+        playlist_id = self.playlist_exists(playlist_name)
+        if not playlist_id:
+            playlist_id = self.create_playlist(playlist_name)
+
+        for t in tracklist:
+            search_string = self._construct_search_string(t)
+            results = self.spotipy_session.search(q=search_string, limit=10)
+            track_id = self._get_track_id_from_search_results(results, t)
+            found = self._add_to_playlist(playlist_id, track_id)
+            self.found_count += found
+
+            if found == 1:
+                t['found'] = True
+            else:
+                t['found'] = False
+
+        return self.found_count, len(tracklist), tracklist
+
+    def _add_to_playlist(self, playlist_id, track_id):
+        if track_id:
+            self.spotipy_session.user_playlist_add_tracks(user=self.username, playlist_id=playlist_id, tracks=track_id)
+            return 1
+        else:
+            return 0
+
+    @property
+    def playlist_link(self):
+        return 'https://open.spotify.com/playlist/{}'.format('3434f')
+
+
+    def playlist_exists(self, name):
+        existing_playlists = self.spotipy_session.user_playlists(self.username)['items']
+        for playlist in existing_playlists:
+            if name in playlist['name']:
+                return playlist['id']
+        return False
+
+    def create_playlist(self, name):
+        playlist = self.spotipy_session.user_playlist_create(self.username, name=name, public=True)
+        playlist_id = playlist['id']
+        return playlist_id
+
+    @staticmethod
+    def _get_track_id_from_search_results(results, track):
+        track_artists = track['artist']
+        for result in results['tracks']['items']:
+            result_artists = result['artists']
+            result_artists_combined = [''.join(x['name'].lower()) for x in result_artists]
+            best_result = process.extractOne(track_artists[0].lower().strip(), result_artists_combined,
+                                             scorer=fuzz.ratio)
+            score = best_result[1]
+            if score > 90:
+                track_id = [result['id']]
+                return track_id
+        return False
+
+
+if __name__ == '__main__':
+    import os
+    import spotipy.util as util
+    from tracklist import Tracklist
+
+    client_id = os.environ.get('CLIENT_ID')
+    client_secret = os.environ.get('CLIENT_SECRET')
+    redirect_uri = os.environ.get('REDIRECT_URI')
+    username = os.environ.get('UNAME')
+    scope = 'user-library-read playlist-modify-public user-read-private'
+    token = util.prompt_for_user_token(username, scope, client_id, client_secret, redirect_uri)
+    if token:
+        sp = spotipy.Spotify(auth=token)
+        url = 'https://www.bbc.co.uk/programmes/m0007b6z'
+        tl = Tracklist(url)
+        tracklist = tl.construct_tracklist()
+        #
+        sp = SpotifyTest(sp, username)
+        re = sp.playlist_link
+        sp.add_to_spotify(tracklist, 'sp test')

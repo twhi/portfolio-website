@@ -31,8 +31,8 @@
         <tbody>
         {% for track in tracklist %}
         <tr class="">
-            <td>{% for artist in track.artist %}{{ artist }}{% endfor %}</td>
-            <td>{% for title in track.title %}{{ title }}{% endfor %}</td>
+            <td>{{ track.artist|join:", " }}</td>
+            <td>{{ track.title| join:" " }}</td>
             <td class="centre-table"><input type="checkbox" id="chk{{ forloop.counter0 }}" name="chk"
                                             value="{{ forloop.counter0 }}" checked/>&nbsp;
             </td>
