@@ -16,14 +16,20 @@ td, tr {
     justify-content: center;
     flex-direction: column;
     background-color: rgba(256, 256, 256, .85);
-
     padding:10px
 }
 
 
 .tl-content {
-padding: 30px;
+    padding: 30px;
 }
+
+@media (max-width: 978px) {
+    .tl-content {
+      padding:0;
+    }
+}
+
 
 td {
     cursor: pointer;
