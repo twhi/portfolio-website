@@ -8,3 +8,7 @@ class InvalidUrlError(Exception):
 
 class NoTracklistError(Exception):
     pass
+
+
+class TracksNotFoundOnSpotifyError(Exception):
+    pass

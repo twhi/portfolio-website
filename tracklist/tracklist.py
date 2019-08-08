@@ -41,13 +41,13 @@ class Tracklist:
         self.xpath = self._xpath_lookup()
 
         if not self.xpath:
-            u = '{uri.scheme}://{uri.netloc}/'.format(uri=urlparse(self.url))
+            u = self.url
             raise WebsiteNotSupportedError(u)
 
         self.raw_html = self._get_data_from_web()
 
         if not self.raw_html:
-            u = '{uri.scheme}://{uri.netloc}/'.format(uri=urlparse(self.url))
+            u = self.url
             raise InvalidUrlError(u)
 
         self.tree = etree.HTML(self.raw_html)
@@ -74,7 +74,7 @@ class Tracklist:
         tracks = self.get_element_by_type(self.tree, 'track')
 
         if not tracks:
-            u = '{uri.scheme}://{uri.netloc}/'.format(uri=urlparse(self.url))
+            u = self.url
             raise NoTracklistError(u)
 
         for track in tracks:
@@ -129,7 +129,7 @@ class Tracklist:
 
 if __name__ == '__main__':
 
-    tl = Tracklist('https://www.bbc.co.uk/programmes/m0007b6z')
+    tl = Tracklist('https://www.bbc.couoiuiouiuiouuiouiuiuiuiuiuio.uk/programmes/m0007b6z')
     t = tl.construct_tracklist()
 
     ender = True

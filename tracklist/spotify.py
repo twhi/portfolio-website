@@ -3,6 +3,11 @@ from social_django.utils import load_strategy
 import re
 from fuzzywuzzy import fuzz, process
 
+try:
+    from .utils.exceptions import TracksNotFoundOnSpotifyError
+except ImportError:
+    from utils.exceptions import TracksNotFoundOnSpotifyError
+
 
 class Spotify:
     found_count = 0
@@ -52,15 +57,27 @@ class Spotify:
         return search_string
 
     def add_to_spotify(self, tracklist, playlist_name):
-        playlist_id = self.playlist_exists(playlist_name)
-        if not playlist_id:
-            playlist_id = self.create_playlist(playlist_name)
 
+        # generate a list of spotify track IDs
+        found_list = []
         for t in tracklist:
             search_string = self._construct_search_string(t)
             results = self.spotipy_session.search(q=search_string, limit=10)
             track_id = self._get_track_id_from_search_results(results, t)
-            found = self._add_to_playlist(playlist_id, track_id)
+            found_list.append(track_id)
+
+        # if no tracks are found then throw error
+        if found_list.count(False) == len(found_list):
+            raise TracksNotFoundOnSpotifyError()
+
+        # get/create playlist
+        playlist = self.playlist_exists(playlist_name)
+        if not playlist:
+            playlist = self.create_playlist(playlist_name)
+
+        # add tracks to playlist
+        for t, track_id in zip(tracklist, found_list):
+            found = self._add_to_playlist(playlist['id'], track_id)
             self.found_count += found
 
             if found == 1:
@@ -68,27 +85,30 @@ class Spotify:
             else:
                 t['found'] = False
 
-        return self.found_count, len(tracklist), tracklist
+        return {
+            'found': self.found_count,
+            'total': len(tracklist),
+            'tracklist': tracklist,
+            'playlist_link': playlist['external_urls']['spotify'],
+        }
 
     def _add_to_playlist(self, playlist_id, track_id):
         if track_id:
-            self.spotipy_session.user_playlist_add_tracks(user=self.get_spotify_username(), playlist_id=playlist_id, tracks=track_id)
+            self.spotipy_session.user_playlist_add_tracks(user=self.get_spotify_username(), playlist_id=playlist_id,
+                                                          tracks=track_id)
             return 1
         else:
             return 0
-
 
     def playlist_exists(self, name):
         existing_playlists = self.spotipy_session.user_playlists(self.get_spotify_username())['items']
         for playlist in existing_playlists:
             if name in playlist['name']:
-                return playlist['id']
+                return playlist
         return False
 
     def create_playlist(self, name):
-        playlist = self.spotipy_session.user_playlist_create(self.get_spotify_username(), name=name, public=True)
-        playlist_id = playlist['id']
-        return playlist_id
+        return self.spotipy_session.user_playlist_create(self.get_spotify_username(), name=name, public=True)
 
     @staticmethod
     def _get_track_id_from_search_results(results, track):
@@ -122,15 +142,26 @@ class SpotifyTest:
         return search_string
 
     def add_to_spotify(self, tracklist, playlist_name):
-        playlist_id = self.playlist_exists(playlist_name)
-        if not playlist_id:
-            playlist_id = self.create_playlist(playlist_name)
-
+        # generate a list of spotify track IDs
+        found_list = []
         for t in tracklist:
             search_string = self._construct_search_string(t)
             results = self.spotipy_session.search(q=search_string, limit=10)
             track_id = self._get_track_id_from_search_results(results, t)
-            found = self._add_to_playlist(playlist_id, track_id)
+            found_list.append(track_id)
+
+        # if no tracks are found then throw error
+        if found_list.count(False) == len(found_list):
+            raise TracksNotFoundOnSpotifyError()
+
+        # get/create playlist
+        playlist = self.playlist_exists(playlist_name)
+        if not playlist:
+            playlist = self.create_playlist(playlist_name)
+
+        # add tracks to playlist
+        for track_id in found_list:
+            found = self._add_to_playlist(playlist['id'], track_id)
             self.found_count += found
 
             if found == 1:
@@ -138,7 +169,12 @@ class SpotifyTest:
             else:
                 t['found'] = False
 
-        return self.found_count, len(tracklist), tracklist
+        return {
+            'found': self.found_count,
+            'total': len(tracklist),
+            'tracklist': tracklist,
+            'playlist_link': playlist['external_urls']['spotify'],
+        }
 
     def _add_to_playlist(self, playlist_id, track_id):
         if track_id:
@@ -151,18 +187,15 @@ class SpotifyTest:
     def playlist_link(self):
         return 'https://open.spotify.com/playlist/{}'.format('3434f')
 
-
     def playlist_exists(self, name):
         existing_playlists = self.spotipy_session.user_playlists(self.username)['items']
         for playlist in existing_playlists:
             if name in playlist['name']:
-                return playlist['id']
+                return playlist
         return False
 
     def create_playlist(self, name):
-        playlist = self.spotipy_session.user_playlist_create(self.username, name=name, public=True)
-        playlist_id = playlist['id']
-        return playlist_id
+        return self.spotipy_session.user_playlist_create(self.username, name=name, public=True)
 
     @staticmethod
     def _get_track_id_from_search_results(results, track):
@@ -192,10 +225,9 @@ if __name__ == '__main__':
     token = util.prompt_for_user_token(username, scope, client_id, client_secret, redirect_uri)
     if token:
         sp = spotipy.Spotify(auth=token)
-        url = 'https://www.bbc.co.uk/programmes/m0007b6z'
+        url = 'https://www.nts.live/shows/budgie/episodes/budgie-01-08-2019'
         tl = Tracklist(url)
         tracklist = tl.construct_tracklist()
         #
         sp = SpotifyTest(sp, username)
-        re = sp.playlist_link
         sp.add_to_spotify(tracklist, 'sp test')

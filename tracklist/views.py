@@ -3,7 +3,7 @@ from django.contrib import messages
 from .forms import TracklistForm, SpotifyForm
 from .tracklist import Tracklist
 from .spotify import Spotify
-from .utils.exceptions import WebsiteNotSupportedError, InvalidUrlError, NoTracklistError
+from .utils.exceptions import WebsiteNotSupportedError, InvalidUrlError, NoTracklistError, TracksNotFoundOnSpotifyError
 
 
 def complete(request):
@@ -11,7 +11,8 @@ def complete(request):
         'found': request.session['found'],
         'total': request.session['total'],
         'complete': request.session['complete'],
-        'tracklist': request.session['tracklist'],
+        'playlist_link': request.session['playlist_link'],
+        'tracklist': request.session['tracklist_reduced'],
     }
     return render(request, 'complete.html', context)
 
@@ -45,15 +46,24 @@ def customise(request):
                     pl = sp_form.cleaned_data['playlist_name']
 
                     # add tracks to spotify
-                    (found, total, tracklist) = spotify.add_to_spotify(tracklist_reduced, pl)
+                    try:
+                        results = spotify.add_to_spotify(tracklist_reduced, pl)
+                    except TracksNotFoundOnSpotifyError:
+                        messages.error(request,
+                                       "Couldn't find any of tracks for this show on Spotify.", "danger")
+                        return redirect('../')
 
                     # store data in session variables
-                    request.session['tracklist'] = tracklist_reduced
-                    request.session['found'] = found
-                    request.session['total'] = total
+                    request.session['tracklist_reduced'] = tracklist_reduced
+                    request.session['found'] = results['found']
+                    print(tracklist_reduced)
+                    request.session['total'] = results['total']
+                    request.session['playlist_link'] = results['playlist_link']
                     request.session['complete'] = True
 
                     return redirect('../complete/')
+            else:
+                return redirect('../')
 
     context = {
         'website_name': request.session['website_name'],

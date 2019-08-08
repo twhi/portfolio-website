@@ -33,5 +33,5 @@
 {% endif %}
 <hr>
 <a class="btn btn-primary btn-spotify" href="{% url 'tracklist' %}">Start again</a>
-<a class="btn btn-primary btn-spotify" href="#">Go to your playlist</a>
+<a class="btn btn-primary btn-spotify" href="{{ playlist_link }}">Go to your playlist</a>
 {% endblock tl_content %}
