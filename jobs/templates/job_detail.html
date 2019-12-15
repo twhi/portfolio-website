@@ -17,6 +17,12 @@
 
         <p>
             <a href="{% url 'job_index' %}" class="btn btn-primary my-2">Back</a>
+            {% if job.link_to_website %}
+            <a href="{{ job.link_to_website }}" class="btn btn-primary my-2">View Website</a>
+            {% endif %}
+            {% if job.link_to_github %}
+            <a href="{{ job.link_to_github }}" class="btn btn-primary my-2">View Code on GitHub</a>
+            {% endif %}
         </p>
     </div>
 </section>
