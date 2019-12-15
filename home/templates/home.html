@@ -14,15 +14,17 @@
             <img class="img-fluid" src="{% static 'home_static/me.jpg' %}">
             <h1 class="main-title"><b>Tom Whitehead</b></h1>
             <hr class="hr-title">
-            <h3 class="landing-main-text tagline">A collection of some of my personal technology projects</h3>
+            <h4 class="landing-main-text tagline">A collection of some of my personal technology projects</h4>
         </div>
     </section>
 
 
-    <div class="col-md-6 offset-md-3 about">
-        {% for a in about %}
-        {{ a.formatted_markdown|safe }}
-        {% endfor %}
+    <div class="col-md-8 offset-md-2 about">
+        <h3>Hello, my name is tommy</h3>
+        <p>Hey, my name is Tom - welcome to my website! Here you'll find a collection of some of the projects I've
+            built. I mostly build stuff using Python, but I'm always looking to increase my skillset. If you have any
+            feedback on some of the work I've done, or if you'd like to collaborate, then please get in touch with me on
+            the Contact page.</p>
     </div>
 </div>
 {% endblock content %}

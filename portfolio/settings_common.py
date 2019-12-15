@@ -25,7 +25,6 @@ INSTALLED_APPS = [
     'storages',
     'markdownx',
     'social_django',
-    'tracklist',
 ]
 
 MIDDLEWARE = [
@@ -96,13 +95,4 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.spotify.SpotifyOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
-
-SOCIAL_AUTH_POSTGRES_JSONFIELD = True
-SOCIAL_AUTH_URL_NAMESPACE = 'social'
-
-SOCIAL_AUTH_SPOTIFY_KEY = '***REMOVED***'
-SOCIAL_AUTH_SPOTIFY_SECRET = '***REMOVED***'
-SOCIAL_AUTH_SPOTIFY_SCOPE = ['user-library-read', 'playlist-modify-public', 'user-read-private']
-
-LOGIN_REDIRECT_URL = '/tracklist'
 

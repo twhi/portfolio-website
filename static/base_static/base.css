@@ -10,7 +10,7 @@ body {
 
 .page-content {
   flex: 1;
-  background-color:#bbb;
+  background-color:#d1d4e4;
 }
 
 h1 {
@@ -38,6 +38,13 @@ h1 {
 }
 
 h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding-top: 50px;
+}
+
+h3 {
     font-family: 'Montserrat', sans-serif;
     font-weight: 600;
     text-transform: uppercase;

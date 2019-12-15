@@ -9,8 +9,9 @@ body {
 }
 
 .page-content {
-  flex: 1;
-  background-color:#bbb;
+    padding-top:50px;
+    flex: 1;
+    background-color:#d1d4e4;
 }
 
 h1 {
@@ -51,9 +52,16 @@ h3 {
     padding-top: 50px;
 }
 
+h4 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    text-transform: uppercase;
+    padding-top: 10px;
+}
+
 .title-img {
     display: block;
-    max-width: 100%;
+    max-width: 50%;
     margin-left: auto;
     margin-right: auto;
     padding-top: 10px;
@@ -93,6 +101,10 @@ h3 {
 
 .footer {
     height: 20px;
-    background-color: #171d1c;
+    background-color: #161d1c;
     color: #fff;
 }
+
+nav {
+    background-color: #161d1c;
+  }
