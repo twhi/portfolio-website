@@ -7,7 +7,13 @@
 {% block content %}
 
 <div class="col-md-8 offset-md-2">
-    <h1>Contact</h1>
+    {% if success %}
+    <div class="alert alert-success" role="alert">Success: Email successfully sent!</div>
+    {% elif success != None %}
+    <div class="alert alert-danger" role="alert">Error: Message failed to send.</div>
+    {% endif %}
+
+    <h1 class="page-title">Contact</h1>
     <hr class="hr-title">
 
     <p>Enter your details below to get in touch.</p>
@@ -26,7 +32,7 @@
         </div>
 
         {% if form.errors %}
-            {% include 'form_errors.html' %}
+        {% include 'form_errors.html' %}
         {% endif %}
 
         <button type="submit" class="btn btn-primary">Submit</button>

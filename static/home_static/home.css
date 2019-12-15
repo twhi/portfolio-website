@@ -24,6 +24,10 @@ img {
     color: white;
 }
 
+.img-fluid {
+    max-width: 75%;
+}
+
 .landing-section {
   min-height: 80vh;
   width: 100vw;
@@ -47,6 +51,7 @@ img {
 }
 
 .about {
+    padding-top: 50px;
     text-align: justify;
 }
 

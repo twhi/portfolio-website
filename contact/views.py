@@ -9,7 +9,7 @@ from django.shortcuts import render, redirect
 def contact(request):
 
     form = ContactForm()
-
+    success = None
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
@@ -22,10 +22,11 @@ def contact(request):
                 email = EmailMessage(subject, message, email, ['***REMOVED***'], reply_to=[email])
                 email.send()
             except BadHeaderError:
-                return HttpResponse('Invalid header found.')
-            return redirect('./thanks/')
+                success = False
+            success = True
 
     context = {
+        'success': success,
         'form': form,
         'contact_page': 'active',
     }

@@ -24,6 +24,23 @@ img {
     color: white;
 }
 
+.img-fluid {
+    max-width: 75%;
+}
+
+.option {
+    color: #345c74;
+}
+
+.icon {
+    margin-bottom: 10px;
+}
+
+.option:hover {
+    color: grey;
+    text-decoration: none;
+}
+
 .landing-section {
   min-height: 80vh;
   width: 100vw;
@@ -47,6 +64,7 @@ img {
 }
 
 .about {
+    padding-top: 50px;
     text-align: justify;
 }
 
