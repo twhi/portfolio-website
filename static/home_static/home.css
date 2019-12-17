@@ -28,6 +28,19 @@ img {
     max-width: 75%;
 }
 
+.option {
+    color: #345c74;
+}
+
+.icon {
+    margin-bottom: 10px;
+}
+
+.option:hover {
+    color: grey;
+    text-decoration: none;
+}
+
 .landing-section {
   min-height: 80vh;
   width: 100vw;
