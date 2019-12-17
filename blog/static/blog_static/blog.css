@@ -15,6 +15,10 @@ code {
 }
 
 .blog-img {
-  max-height: 200px;
+  max-height: 150px;
   object-fit: cover;
+}
+
+.blog-card {
+  padding-bottom: 20px;
 }
