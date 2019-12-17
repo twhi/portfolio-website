@@ -11,7 +11,7 @@ a {
 }
 
 .blog-img {
-  height: 300px;
+  max-height: 150px;
   object-fit: cover;
 }
 
