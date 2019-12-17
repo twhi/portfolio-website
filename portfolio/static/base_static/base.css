@@ -2,6 +2,10 @@ body {
   background-color: #171d1c;
 }
 
+.not-homepage {
+    padding-top: 50px;
+}
+
 .page {
   display: flex;
   min-height: 100vh;

@@ -9,3 +9,12 @@ a {
 .comment-form {
     margin-bottom: 20px;
 }
+
+code {
+  color: #2400d2 !important;
+}
+
+.blog-img {
+  max-height: 200px;
+  object-fit: cover;
+}

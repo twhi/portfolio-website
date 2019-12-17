@@ -6,43 +6,41 @@
 {% endblock styles %}
 
 {% block content %}
-<div class="col-md-8 offset-md-2">
+<div class="col-md-8 offset-md-2 not-homepage">
     <h1 class="page-title">Blog Index</h1>
     <hr class="hr-title">
     <p>Here is a section that contains all of the blog posts.</p>
 
-    <div class="row">
-
+<div class="row">
         {% for post in posts %}
 
-        <div class="col-sm-10">
+        <!-- <div class="col-sm-10">
             <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-
-                {# left hand side of card #}
                 <div class="col p-4 d-flex flex-column position-static">
-                    {# post title #}
                     <a href="{% url 'blog_detail' post.pk %}" class=""><h3 class="mb-0">{{ post.title }}</h3></a>
-
-                    {# post created date #}
                     <div class="mb-1 text-muted">{{ post.created_on.date }}</div>
-
-                    {# post preview #}
                     <p class="card-text mb-auto">{{ post.body | slice:":100" }}...</p>
-
-                    {# link to rest of post#}
                     <a href="{% url 'blog_detail' post.pk %}" class=""><p>Continue reading</p></a>
                 </div>
-
-                {# right hand side of card - image thumbnail #}
                 <div class="col-auto d-none d-lg-block">
                     <img class="object-fit-cover" width="200" height="250" src="{{ post.image.url }}"/>
                 </div>
-
             </div>
-        </div>
-        <hr>
-        {% endfor %}
+        </div> -->
 
-    </div>
+        <div class="col-md-4">
+            <div class="card mb-4 text-white bg-dark">
+               <img class="card-img-top blog-img" src="{{ post.image.url }}" alt="Card image cap">
+               <div class="card-body">
+                  <h5 class="card-title">{{ post.title }}</h5>
+                  <div class="font-italic text-muted small">{{ post.created_on.date }}</div>
+                  <p class="card-text">{{ post.body | slice:":100" }}...</p>
+                  <a href="{% url 'blog_detail' post.pk %}" class="btn btn-outline-light btn-sm">Continue reading</a>
+               </div>
+            </div>
+         </div>
+
+        {% endfor %}
+</div>
 </div>
 {% endblock content %}
