@@ -41,3 +41,19 @@ EMAIL_POST = os.environ.get('PROD_EMAIL_POST')
 EMAIL_HOST_USER = os.environ.get('PROD_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('PROD_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = os.environ.get('PROD_DEFAULT_FROM_EMAIL')
+
+##########################################################################
+# # security tips from https://reversepython.net/lab/django-web-security-checklist-deployment/
+SECURE_HSTS_SECONDS = 18768000  # ~6 months
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+SECURE_SSL_REDIRECT = True
+
+CSRF_COOKIE_SECURE = True #to avoid transmitting the CSRF cookie over HTTP accidentally.
+SESSION_COOKIE_SECURE = True #to avoid transmitting the session cookie over HTTP accidentally.
+
+X_FRAME_OPTIONS = 'DENY'
