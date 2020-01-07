@@ -9,3 +9,12 @@ a {
 .comment-form {
     margin-bottom: 20px;
 }
+
+.blog-img {
+  max-height: 150px;
+  object-fit: cover;
+}
+
+.blog-card {
+  padding-bottom: 20px;
+}

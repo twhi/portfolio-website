@@ -2,6 +2,10 @@ body {
   background-color: #171d1c;
 }
 
+.not-homepage {
+    padding-top: 50px;
+}
+
 .page {
   display: flex;
   min-height: 100vh;
@@ -11,7 +15,7 @@ body {
 .page-content {
     padding-top:50px;
     flex: 1;
-    background-color:#f6ffec;
+    background-color:#feffec;
 }
 
 h1 {
