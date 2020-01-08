@@ -19,7 +19,7 @@ def contact(request):
                       '\nMessage from: ' + form.cleaned_data['email'] + \
                       '\nMessage text: ' + form.cleaned_data['message']
             try:
-                email = EmailMessage(subject, message, email, ['***REMOVED***'], reply_to=[email])
+                email = EmailMessage(subject, message, email, ['twhitehead.1991@gmail.com'], reply_to=[email])
                 email.send()
             except BadHeaderError:
                 success = False
