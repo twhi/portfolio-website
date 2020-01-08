@@ -15,7 +15,7 @@
         <div class="row">
 
             {% for job in jobs.all %}
-            <div class="col-md-4 img-box">
+            <div class="col-lg-4 col-sm-6 img-box">
                 <a href="{% url 'job_detail' job.pk %}">
                     <img src="{{ job.image.url }}" class="object-fit-cover image">
                     <div class="caption">
