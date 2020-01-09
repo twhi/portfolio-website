@@ -1,5 +1,5 @@
 from gevent import monkey as curious_george
-curious_george.patch_all(thread=False)
+curious_george.patch_all(thread=False, select=False)
 import grequests
 
 from django.core.management.base import BaseCommand, CommandError
