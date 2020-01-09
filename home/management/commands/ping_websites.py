@@ -1,8 +1,5 @@
-# from gevent import monkey as curious_george
-# curious_george.patch_all(thread=False, select=False)
-
-import gevent.monkey
-gevent.monkey.patch_all()
+from gevent import monkey as curious_george
+curious_george.patch_all(thread=False, select=False)
 
 import grequests
 
