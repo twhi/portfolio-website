@@ -31,4 +31,4 @@ class Command(BaseCommand):
     def async_get(self):
         reqs = (grequests.get(u) for u in self.urls)
         r = grequests.map(reqs, exception_handler=self._async_get_exception)
-        self.stdout.write(r)
+        self.stdout.write("Success")
