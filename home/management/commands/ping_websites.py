@@ -1,5 +1,9 @@
-from gevent import monkey as curious_george
-curious_george.patch_all(thread=False, select=False)
+# from gevent import monkey as curious_george
+# curious_george.patch_all(thread=False, select=False)
+
+import gevent.monkey
+gevent.monkey.patch_all()
+
 import grequests
 
 from django.core.management.base import BaseCommand, CommandError
@@ -17,6 +21,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         if not self.active:
+            self.stdout.write('Websites have gone to sleep... zzzzzzzzz...')
             return
         self.async_get()
 
