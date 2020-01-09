@@ -1,8 +1,5 @@
 # user specified files/folders
-settings_common.py
-settings_dev.py
-settings_prod.py
-safe-woodland-45163/
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
