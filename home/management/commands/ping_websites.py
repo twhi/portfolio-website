@@ -1,6 +1,6 @@
+from gevent import monkey
+monkey.patch_all(thread=False, select=False)
 import grequests
-from gevent import monkey as curious_george
-curious_george.patch_all(thread=False, select=False)
 
 from django.core.management.base import BaseCommand, CommandError
 from datetime import datetime, time
