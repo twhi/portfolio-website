@@ -24,7 +24,6 @@ INSTALLED_APPS = [
     'contact',
     'storages',
     'markdownx',
-    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -89,9 +88,3 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR
-
-
-AUTHENTICATION_BACKENDS = (
-    'social_core.backends.spotify.SpotifyOAuth2',
-    'django.contrib.auth.backends.ModelBackend',
-)
